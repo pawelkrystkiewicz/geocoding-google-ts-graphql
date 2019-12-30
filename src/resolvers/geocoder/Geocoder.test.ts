@@ -1,49 +1,14 @@
 import { callGraphql } from '../../test-utils/callGraphql';
 
-const statusQ = `
+const statusQ = `query geocodeTest($address:$String!) {geocode(address: $address)}`;
 
-mutation addSetting(
-	$name:$String!
-	$value:$String!
-	$stage:$String!
-	$module:$String!
-) {
-  addSetting(
-    name: $name
-    value:$value
-    stage:$stage
-    module:$module
-  ) {
-    id
-    name
-    value
-    module {
-      name
-    }
-    stage {
-      name
-    }
-    common {
-      createdAt
-      updatedAt
-    }
-  }
-}
+beforeAll(async () => {});
+afterAll(async () => {});
 
-`;
-
-beforeAll(async () => {
-
-});
-afterAll(async () =>{})
-
-describe('Setting', () => {
-	it('inserts new record', async () => {
+describe('Geocode', () => {
+	it('should return lat and lon', async () => {
 		const dataToInsert = {
-			name: `PI`,
-			value: `3.14159265359`,
-			module: 'server',
-			stage: 'test'
+			address: 'Washington D.C.'
 		};
 
 		const response = await callGraphql({
@@ -52,15 +17,8 @@ describe('Setting', () => {
 		});
 
 		expect(response).toMatchObject({
-			data: {
-				name: dataToInsert.name,
-				value: dataToInsert.value,
-				module: {
-					name: dataToInsert.module
-				},
-				stage: {
-					name: dataToInsert.stage
-				}
+			geocode: {
+				status: 'OK'
 			}
 		});
 	});

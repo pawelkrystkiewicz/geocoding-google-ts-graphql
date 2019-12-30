@@ -6,5 +6,5 @@ import { CompetitorDetector } from '../type-gql-middlewares/CompetitorDetector';
 export const createSchema = () =>
 	buildSchema({
 		resolvers: [ __dirname + '/../resolvers/**/*.resolver.?s' ],
-		// globalMiddlewares: [ ResolveTime,  CompetitorDetector ]
+		globalMiddlewares: [ErrorInterceptor, ResolveTime,  CompetitorDetector ]
 	});
