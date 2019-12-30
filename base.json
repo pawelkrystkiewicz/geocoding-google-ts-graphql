@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"rootDir": "src",
+		"strict": true,
+		"paths": {
+			"@entities/*": [ "./src/entity/*" ],
+			"@entities": [ "./src/entity" ],
+			"@resolvers/*": [ "./src/resolvers/*" ],
+			"@resolvers": [ "./src/resolvers" ],
+			"@types/*": [ "./src/types/*" ],
+			"@types": [ "./src/types" ],
+			"@utils": [ "./src/utils" ],
+			"@utils/*": [ "./src/utils/*" ],
+			"@root/*": [ "./src/*" ],
+			"@root": [ "./src/" ],
+			"@test/*": [ "./src/test-utils/*" ],
+			"@test": [ "./src/test-utils/" ]
+		}
+	}
+}
