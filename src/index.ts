@@ -7,31 +7,28 @@ import { express as voyagerMiddleware } from 'graphql-voyager/middleware';
 import http from 'http';
 import 'reflect-metadata';
 import { formatArgumentValidationError } from 'type-graphql';
-import { createConnection, getConnection } from 'typeorm';
 import { IContext } from './types/IContext';
 import * as config from './utils/config';
 import { createSchema } from './utils/createSchema';
 import cors = require('cors');
+const signale = require('signale');
+
+// signale.debug('Hello', 'from', 'L59');
+// signale.pending('Write release notes for %s', '1.2.0');
+// signale.fatal(new Error('Unable to acquire lock'));
+// signale.watch('Recursively watching build directory...');
+// signale.complete({prefix: '[task]', message: 'Fix issue #59', suffix: '(@klauscfhq)'});
 
 const statusMonitor = require('express-status-monitor')(monitorConfig);
 
 export const main = async () => {
-
 	const schema = await createSchema();
-
-	await createConnection();
 
 	const apolloServer = new ApolloServer({
 		schema,
 		formatError: formatArgumentValidationError as any,
 		context: ({ req, res }): IContext => ({ req, res }),
-		playground: !config.PROD,
-		cache: new RedisCache({
-			host: config.REDIS_HOST,
-			port: config.REDIS_PORT,
-			password: config.REDIS_PASS,
-			family: 4
-		})
+		playground: !config.PROD
 	});
 
 	const app = express();
@@ -60,7 +57,7 @@ export const main = async () => {
 	const httpServer = http.createServer(app);
 
 	httpServer.listen(Number(config.PORT), () => {
-		console.log(`Server is ready on http://localhost:${config.PORT}${apolloServer.graphqlPath} 🚀`);
+		signale.start(`Server is ready on http://localhost:${config.PORT}${apolloServer.graphqlPath}`);
 	});
 };
 
